@@ -26,7 +26,16 @@ function checksExistsUserAccount(request, response, next) {
 }
 
 function checksCreateTodosUserAvailability(request, response, next) {
-  // Complete aqui
+  const { user } = request;
+
+  if ((user.pro === false && user.todos.length <= 9) || user.pro === true) {
+    request.user = user;
+    next();
+  }
+
+  response.status(403).json({
+    error: 'Could not create a new todo!'
+  });
 }
 
 function checksTodoExists(request, response, next) {
