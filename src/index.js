@@ -15,13 +15,13 @@ function checksExistsUserAccount(request, response, next) {
   const user = users.find(user => user.name === username);
 
   if (!user) {
-    response.status(404).json({
+    return response.status(404).json({
       message: 'User not found'
     });
   }
 
   request.user = user;
-  next();
+  return next();
 
 }
 
@@ -30,10 +30,10 @@ function checksCreateTodosUserAvailability(request, response, next) {
 
   if ((user.pro === false && user.todos.length <= 9) || user.pro === true) {
     request.user = user;
-    next();
+    return next();
   }
 
-  response.status(403).json({
+  return response.status(403).json({
     error: 'Could not create a new todo!'
   });
 }
